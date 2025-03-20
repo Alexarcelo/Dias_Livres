@@ -63,7 +63,8 @@ def plotar_filtros_e_filtrar_escalas(row1):
                     'TOUR', 
                     'TRANSFER'
                 ], 
-                index=None
+                index=None,
+                key = 'tipo_de_servico'
             )
 
             if tipo_de_servico:
