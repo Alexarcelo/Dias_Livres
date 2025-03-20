@@ -199,22 +199,22 @@ def calcular_performance(df_escalas, df_sales):
 
     # Filtrando apenas as vendas feitas em D+0 e D+1 e que serão executadas após a data da escala, mas antes da data do último serviço
 
+    if st.session_state.tipo_de_servico == 'IN' or st.session_state.base_luck == 'test_phoenix_joao_pessoa':
+
+        df_merged = df_merged[
+            (
+                (df_merged['Data_Venda'] >= df_merged['Data_da_Escala'])
+            ) &
+            (df_merged['Data_Execucao'] > df_merged['Data_da_Escala']) &
+            (df_merged['Data_Execucao'] <= df_merged['Data_Ultimo_Servico'])
+        ]
+
     if st.session_state.base_luck == 'test_phoenix_natal':
 
         df_merged = df_merged[
             (
                 (df_merged['Data_Venda'] == df_merged['Data_da_Escala']) |
                 (df_merged['Data_Venda'] == df_merged['Data_da_Escala'] + timedelta(days=1))
-            ) &
-            (df_merged['Data_Execucao'] > df_merged['Data_da_Escala']) &
-            (df_merged['Data_Execucao'] <= df_merged['Data_Ultimo_Servico'])
-        ]
-
-    elif st.session_state.base_luck == 'test_phoenix_joao_pessoa':
-
-        df_merged = df_merged[
-            (
-                (df_merged['Data_Venda'] >= df_merged['Data_da_Escala'])
             ) &
             (df_merged['Data_Execucao'] > df_merged['Data_da_Escala']) &
             (df_merged['Data_Execucao'] <= df_merged['Data_Ultimo_Servico'])
