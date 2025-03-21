@@ -316,6 +316,39 @@ def gerar_df_escalas_agrupadas(df_escalas):
 
 def plotar_resumos(df_escalas_agrupadas, filtrar_resumos):
 
+    def plotar_ranking_performance(df_escalas_agrupadas):
+
+        df_ranking = df_escalas_agrupadas.groupby('Guia', as_index=False).agg(
+            {
+                'Total de Reservas': 'sum',
+                'Total de Paxs': 'sum',
+                'Total de Dias Livres': 'sum',
+                'Total de Dias Vendidos': 'sum'
+            }
+        )
+
+        df_ranking['Performance'] = round(df_ranking['Total de Dias Vendidos'] / df_ranking['Total de Dias Livres'], 2)
+
+        df_ranking['Performance'] = df_ranking['Performance'].fillna(0)
+
+        df_ranking = df_ranking.sort_values(by=['Performance', 'Total de Dias Livres'], ascending=False).reset_index(drop=True)
+
+        df_ranking['Performance'] = df_ranking['Performance'].apply(lambda x: f'{x*100:.1f}%')
+
+        df_ranking['Guia'] = df_ranking['Guia'].apply(lambda x: x.title())
+
+        st.title(f'Ranking de Performance')
+
+        st.divider()
+
+        st.dataframe(
+            df_ranking,
+            hide_index=True,
+            use_container_width=True
+        )
+
+        st.divider()
+
     def plotar_resumo_geral(df_escalas_agrupadas, guia):
 
         df_guia = df_escalas_agrupadas[df_escalas_agrupadas['Guia'] == guia].reset_index(drop=True)
@@ -445,6 +478,8 @@ def plotar_resumos(df_escalas_agrupadas, filtrar_resumos):
                         'Performance'
                     ]
                 ], hide_index=True, use_container_width=True)
+
+    plotar_ranking_performance(df_escalas_agrupadas)
 
     for guia in sorted(df_escalas_agrupadas['Guia'].unique()):
 
