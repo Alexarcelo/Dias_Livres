@@ -460,9 +460,11 @@ def plotar_resumos(df_escalas_agrupadas, filtrar_resumos):
 
         for data_escala in sorted(df_guia['Data_da_Escala'].unique()):
 
-            st.subheader(f"{data_escala.strftime('%d/%m/%Y')} - {st.session_state.dias_da_semana_ingles_portugues[data_escala.strftime('%A')]}")
-
             df_data_escala = df_guia[df_guia['Data_da_Escala'] == data_escala].reset_index(drop=True)
+
+            performance_do_dia = round(df_data_escala['Total de Dias Vendidos'].sum() / df_data_escala['Total de Dias Livres'].sum(), 2)
+
+            st.subheader(f"{data_escala.strftime('%d/%m/%Y')} - {st.session_state.dias_da_semana_ingles_portugues[data_escala.strftime('%A')]} - {performance_do_dia*100:.1f}%")
 
             st.dataframe(
                 df_data_escala[
