@@ -259,6 +259,18 @@ def calcular_performance(df_escalas, df_sales):
 
     return df_escalas
 
+def string_voos(x):
+
+    if all(pd.isna(x)):
+
+        return ''
+    
+    else:
+
+        lista_voos = set(list(x))
+
+        return ' + '.join(lista_voos)
+
 def gerar_df_escalas_agrupadas(df_escalas):
 
     df_escalas_agrupadas = df_escalas.groupby(
@@ -275,7 +287,8 @@ def gerar_df_escalas_agrupadas(df_escalas):
             'Reserva_Mae': 'nunique', 
             'Total_Paxs': 'sum',
             'Dias_Livres_Antes_da_Escala_Correto': 'sum', 
-            'N_Serviços_Vendidos_D0_D1': 'sum', 
+            'N_Serviços_Vendidos_D0_D1': 'sum',
+            'Voo': string_voos
         }
     ).reset_index()
 
@@ -423,6 +436,7 @@ def plotar_resumos(df_escalas_agrupadas, filtrar_resumos):
                     [
                         'Escala', 
                         'Serviço',
+                        'Voo',
                         'Veículo',
                         'Total de Reservas',
                         'Total de Paxs',
