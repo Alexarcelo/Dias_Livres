@@ -243,6 +243,8 @@ if not 'mostrar_config' in st.session_state:
 
 st.title(st.session_state.titulo_3)
 
+st.markdown('*o cálculo da estadia é sempre em cima da data de hoje e não da data do IN*') 
+
 row0 = st.columns(1)
 
 st.divider()
@@ -371,6 +373,11 @@ with row1[0]:
 
     gerar_analise = container_datas.button('Gerar Análise')
 
+    omitir_dias_livres_zero = container_datas.checkbox(
+        'Omitir Reservas s/ Dias Livres', 
+        key='omitir_dias_livres_zero'
+    )
+
 if gerar_analise:
 
     # Pegando reservas que fizeram trf in até a data limite
@@ -452,5 +459,11 @@ if len(st.session_state.df_final)>0:
                 st.subheader(f'Total de dias livres dos hoteis selecionados = {int(total_dias_livres)}')
 
                 st.subheader(f'Total de paxs dos hoteis selecionados = {int(total_paxs_ref)}')
+
+            if omitir_dias_livres_zero:
+
+                df_ref = df_ref[
+                    df_ref['Dias Livres'] > 0
+                ]
 
             plotar_tabela_row_servico_especifico(df_ref, row2)
