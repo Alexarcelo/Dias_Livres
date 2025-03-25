@@ -383,7 +383,7 @@ row0 = st.columns(1)
 
 st.divider()
 
-st.header('Configurações ')
+st.header('Configurações')
 
 alterar_configuracoes = st.button('Visualizar Configurações')
 
