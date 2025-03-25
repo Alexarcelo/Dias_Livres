@@ -468,7 +468,7 @@ if st.session_state.mostrar_config == True:
 
 if not 'df_router' in st.session_state:
 
-    with st.spinner('Puxando dados do Phoenix...'):
+    with st.spinner('Puxando dados do Phoenix. Por favor espere os dados serem puxados pra poder mudar de tela...'):
 
         puxar_dados_phoenix()
 
